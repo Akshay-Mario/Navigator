@@ -6,8 +6,39 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import MealsOverview from './screens/MealsOverviewScreen';
 import MealsDetails from './screens/MealDetailScreen';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import FavoriteScreen from './screens/Favorites';
+import { Ionicons} from '@expo/vector-icons';
+
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function DrawerNavigator() {
+  return(
+    <Drawer.Navigator
+    screenOptions={
+      {
+        headerStyle: {backgroundColor: 'black'},
+        headerTintColor: 'white',
+        sceneContainerStyle: {backgroundColor: 'black'},
+        drawerContentStyle: {backgroundColor: 'black'},
+        drawerInactiveTintColor: 'white'
+      }
+    }>
+      <Drawer.Screen name="Categories" component={CategoryScreen}
+        options= {{
+          title: 'All Categories',
+          drawerIcon: ({color,size}) => <Ionicons name="list" color={color} size={size}/>
+        }}/>
+      <Drawer.Screen name="Favorites" component={FavoriteScreen}
+      options={{
+        drawerIcon: ({color,size}) => <Ionicons name="star" color={color} size={size}/>
+
+      }}/>
+    </Drawer.Navigator>
+  )
+}
 
 export default function App() {
   return (
@@ -15,9 +46,10 @@ export default function App() {
       <StatusBar style = "light"/>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="MealsContainer" component={CategoryScreen}
+          <Stack.Screen name="DrawerCategory" component={DrawerNavigator}
             options={{
               title: 'All Categories',
+              headerShown: false,
               headerStyle: {
                 backgroundColor: 'black',
                 color: 'white',
